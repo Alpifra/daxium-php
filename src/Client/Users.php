@@ -42,7 +42,9 @@ class Users extends BaseClient
      */
     public function findByUsername(string $username): \stdClass
     {
-        return $this->initRequest()->get('/users', ['username' => $username]);
+        $appShort = DAXIUM_APP_SHORT;
+
+        return $this->initRequest()->get("/{$appShort}/users", ['username' => $username]);
     }
 
 }

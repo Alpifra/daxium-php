@@ -20,17 +20,29 @@ class BaseClient
         private string $clientId,
         private string $clientSecret,
         private string $username,
-        private string $password
+        private string $password,
+        private string $appShort
     ) {}
 
-    protected function initRequest(): Request
+    public function initRequest(): Request
     {
-        $request =  new Request(
+        $request = new Request(
             $this->clientId,
             $this->clientSecret,
             $this->username,
             $this->password
         );
+
+        $request->apiVersion = self::API_VERSION;
+        $response = $request->postFormUrlEncoded(self::AUTH_PATH, [
+            'client_id'     => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'username'      => $this->username,
+            'password'      => $this->password,
+            'grant_type'    => 'password'
+        ]);
+
+        $request->token = $response->access_token;
 
         return $request;
     }

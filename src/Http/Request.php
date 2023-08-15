@@ -3,7 +3,6 @@
 namespace Alpifra\DaxiumPHP\Http;
 
 use Alpifra\DaxiumPHP\BaseClient;
-use Alpifra\DaxiumPHP\Helper\QueryHelper;
 use Alpifra\DaxiumPHP\Exception\RequestException;
 use Alpifra\DaxiumPHP\Exception\ResponseException;
 
@@ -14,7 +13,8 @@ final class Request
 
     private \CurlHandle|false $ch = false;
 
-    private ?string $token = null;
+    public ?string $token = null;
+    public ?string $apiVersion = null;
 
     public function __construct(
         private string $clientId,
@@ -52,6 +52,7 @@ final class Request
 
         $this->init($path, $params)->setOptions();
         curl_setopt($this->ch, CURLOPT_POST, true);
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($params));
 
         return json_decode($this->exec());
     }
@@ -63,12 +64,13 @@ final class Request
      * 
      * @throws RequestException
      */
-    public function put(string $path, array $params = []): \stdClass
+    public function postFormUrlEncoded(string $path, array $params = []): \stdClass
     {
         set_time_limit(self::TIME_LIMIT);
 
-        $this->init($path, $params)->setOptions();
-        curl_setopt($this->ch, CURLOPT_PUT, true);
+        $this->init($path)->setOptions('application/x-www-form-urlencoded');
+        curl_setopt($this->ch, CURLOPT_POST, true);
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($params));
 
         return json_decode($this->exec());
     }
@@ -97,11 +99,11 @@ final class Request
      * 
      * @throws RequestException
      */
-    private function init(string $path, array $params): self
+    private function init(string $path, array $params = []): self
     {
         $url = BaseClient::BASE_URL;
         $url .= $path;
-        $url .= QueryHelper::formatQueryParameters($params);
+        $url .= !empty($params) ? '?' . http_build_query($params) : '';
 
         $this->ch = curl_init($url);
         if ($this->ch === false) {
@@ -115,14 +117,16 @@ final class Request
      * @param  \CurlHandle $ch
      * @return self
      */
-    private function setOptions(): self
+    private function setOptions(string $contentType = 'application/json'): self
     {
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
             'Accept: application/json;charset=utf-8',
-            'Content-type: text/plain',
-            'Authorization: Brearer ' . $this->token,
+            "Content-type: {$contentType}",
+            "Authorization: Bearer {$this->token}",
             'Cache-Control: no-cache',
+            "X-Accept-Version: {$this->apiVersion}",
         ]);
 
         return $this;
