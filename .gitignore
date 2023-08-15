@@ -1,3 +1,7 @@
 /vendor/
 composer.lock
 
+# Pest files
+/tests/
+phpunit.xml
+phpunit.xml.bak

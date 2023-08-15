@@ -18,5 +18,13 @@
         "php": ">=8.0",
         "ext-curl": "*",
         "ext-json": "*"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.14"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
