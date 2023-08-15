@@ -2,6 +2,7 @@
 
 namespace Alpifra\DaxiumPHP\Http;
 
+use Alpifra\DaxiumPHP\BaseClient;
 use Alpifra\DaxiumPHP\Helper\QueryHelper;
 use Alpifra\DaxiumPHP\Exception\RequestException;
 use Alpifra\DaxiumPHP\Exception\ResponseException;
@@ -96,8 +97,10 @@ final class Request
      * 
      * @throws RequestException
      */
-    private function init(string $url, array $params): self
+    private function init(string $path, array $params): self
     {
+        $url = BaseClient::BASE_URL;
+        $url .= $path;
         $url .= QueryHelper::formatQueryParameters($params);
 
         $this->ch = curl_init($url);

@@ -9,7 +9,7 @@ use Alpifra\DaxiumPHP\Http\Request;
  * 
  * @see https://doc-dev.daxium-air.com/
  */
-final class Daxium
+class BaseClient
 {
 
     public const BASE_URL = 'https://api.daxium-air.com';
