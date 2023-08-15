@@ -1,0 +1,22 @@
+{
+    "name": "alpifra/daxium-php",
+    "description": "A basic PHP client interracting with the Daxium Air API V1.3 services.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandre Chauvin",
+            "email": "dev@alexandrechauvin.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Alpifra\\DaxiumPHP\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    }
+}
