@@ -20,9 +20,7 @@ class Task extends BaseClient
      */
     public function list(): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/tasks");
+        return $this->initRequest()->get("/{$this->appShort}/tasks");
     }
 
     /**
@@ -36,7 +34,6 @@ class Task extends BaseClient
      */
     public function create(int $user, \DateTime $startAt, \DateTime $endAt, ?array $submissions = null): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
         $start = $startAt->getTimestamp();
         $end = $endAt->getTimestamp();
         $data = [
@@ -50,7 +47,7 @@ class Task extends BaseClient
 
         if ($submissions) $data['submissions'] = $submissions;
 
-        return $this->initRequest()->post("/{$appShort}/tasks", $data);
+        return $this->initRequest()->post("/{$this->appShort}/tasks", $data);
     }
 
     /**
@@ -61,9 +58,7 @@ class Task extends BaseClient
      */
     public function remove(string $uuid)
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->delete("/{$appShort}/tasks/{$uuid}");
+        return $this->initRequest()->delete("/{$this->appShort}/tasks/{$uuid}");
     }
 
 }

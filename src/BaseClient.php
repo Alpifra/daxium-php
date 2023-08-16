@@ -17,11 +17,11 @@ class BaseClient
     public const API_VERSION = 'v1.3';
 
     public function __construct(
-        private string $clientId,
-        private string $clientSecret,
-        private string $username,
-        private string $password,
-        private string $appShort
+        protected string $clientId,
+        protected string $clientSecret,
+        protected string $username,
+        protected string $password,
+        protected string $appShort
     ) {}
 
     public function initRequest(): Request

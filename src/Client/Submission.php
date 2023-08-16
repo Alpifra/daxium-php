@@ -21,9 +21,7 @@ class Submission extends BaseClient
      */
     public function listByStructure(int $id): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/submissions", ['structure_id' => $id]);
+        return $this->initRequest()->get("/{$this->appShort}/submissions", ['structure_id' => $id]);
     }
 
     /**
@@ -34,9 +32,7 @@ class Submission extends BaseClient
      */
     public function find(string $uuid): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/submissions/{$uuid}");
+        return $this->initRequest()->get("/{$this->appShort}/submissions/{$uuid}");
     }
 
 }

@@ -21,9 +21,7 @@ class Report extends BaseClient
      */
     public function findBySubmission(string $uuid): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/reports", ['submission' => $uuid]);
+        return $this->initRequest()->get("/{$this->appShort}/reports", ['submission' => $uuid]);
     }
 
     /**
@@ -35,9 +33,7 @@ class Report extends BaseClient
      */
     public function download(int $id, string $fileUuid): string
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->getFile("/{$appShort}/reports/{$id}/results/{$fileUuid}");
+        return $this->initRequest()->getFile("/{$this->appShort}/reports/{$id}/results/{$fileUuid}");
     }
 
 }

@@ -20,9 +20,7 @@ class Structure extends BaseClient
      */
     public function list(): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/structures");
+        return $this->initRequest()->get("/{$this->appShort}/structures");
     }
 
     /**
@@ -33,9 +31,7 @@ class Structure extends BaseClient
      */
     public function find(int $id): \stdClass
     {
-        $appShort = DAXIUM_APP_SHORT;
-
-        return $this->initRequest()->get("/{$appShort}/structures/{$id}");
+        return $this->initRequest()->get("/{$this->appShort}/structures/{$id}");
     }
 
 }

@@ -32,8 +32,6 @@ final class Request
      */
     public function get(string $path, array $params = []): \stdClass
     {
-        set_time_limit(self::TIME_LIMIT);
-
         $this->init($path, $params)->setOptions();
 
         return json_decode($this->exec());
@@ -48,8 +46,6 @@ final class Request
      */
     public function getFile(string $path, array $params = []): string
     {
-        set_time_limit(self::TIME_LIMIT);
-
         $this->init($path, $params)->setOptions('application/json', '*/*');
 
         return $this->exec();
@@ -64,8 +60,6 @@ final class Request
      */
     public function post(string $path, array $params = []): \stdClass
     {
-        set_time_limit(self::TIME_LIMIT);
-
         $this->init($path, $params)->setOptions();
         curl_setopt($this->ch, CURLOPT_POST, true);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($params));
@@ -82,8 +76,6 @@ final class Request
      */
     public function postFormUrlEncoded(string $path, array $params = []): \stdClass
     {
-        set_time_limit(self::TIME_LIMIT);
-
         $this->init($path)->setOptions('application/x-www-form-urlencoded');
         curl_setopt($this->ch, CURLOPT_POST, true);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($params));
@@ -100,8 +92,6 @@ final class Request
      */
     public function delete(string $path, array $params = [])
     {
-        set_time_limit(self::TIME_LIMIT);
-
         $this->init($path, $params)->setOptions();
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 
@@ -120,6 +110,8 @@ final class Request
         $url = BaseClient::BASE_URL;
         $url .= $path;
         $url .= !empty($params) ? '?' . http_build_query($params) : '';
+
+        set_time_limit(self::TIME_LIMIT);
 
         $this->ch = curl_init($url);
         if ($this->ch === false) {
