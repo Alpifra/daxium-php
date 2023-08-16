@@ -34,8 +34,8 @@ it('can create a new task for a user', function() {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumUser->findByUsername(DAXIUM_USERNAME);
-    $user = $response->users[0]->id;
+    $users = $daxiumUser->findByUsername(DAXIUM_USERNAME);
+    $user = $users[0]->id;
 
     expect($user)
         ->toBeInt();

@@ -3,7 +3,7 @@
 namespace Alpifra\DaxiumPHP\Client;
 
 use Alpifra\DaxiumPHP\BaseClient;
-
+use Alpifra\DaxiumPHP\Representation\UserRepresentation;
 
 /**
  * User service manager from Daxium API
@@ -16,33 +16,49 @@ class User extends BaseClient
     /**
      * List all users
      *
-     * @return \stdClass
+     * @return UserRepresentation[]
      */
-    public function list(): \stdClass
+    public function list(): array
     {
-        return $this->initRequest()->get('/users');
+        $data = $this->initRequest()->get('/users');
+        $users = [];
+
+        foreach ($data->users as $user) {
+            $users[] = new UserRepresentation($user);
+        }
+
+        return $users;
     }
 
     /**
      * Find a user by id
      *
      * @param  int $id
-     * @return \stdClass
+     * @return UserRepresentation
      */
-    public function find(int $id): \stdClass
+    public function find(int $id): UserRepresentation
     {
-        return $this->initRequest()->get("/users/{$id}");
+        $data = $this->initRequest()->get("/users/{$id}");
+
+        return new UserRepresentation($data);
     }
 
     /**
      * Find a user by id
      *
      * @param  string $username
-     * @return \stdClass
+     * @return UserRepresentation[]
      */
-    public function findByUsername(string $username): \stdClass
+    public function findByUsername(string $username): array
     {
-        return $this->initRequest()->get("/{$this->appShort}/users", ['username' => $username]);
+        $data = $this->initRequest()->get("/{$this->appShort}/users", ['username' => $username]);
+        $users = [];
+
+        foreach ($data->users as $user) {
+            $users[] = new UserRepresentation($user);
+        }
+
+        return $users;
     }
 
 }

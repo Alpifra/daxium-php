@@ -1,6 +1,7 @@
 <?php
 
 use Alpifra\DaxiumPHP\Client\User;
+use Alpifra\DaxiumPHP\Representation\UserRepresentation;
 
 it('can get users collection', function () {
 
@@ -12,14 +13,13 @@ it('can get users collection', function () {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumUser->list();
+    $users = $daxiumUser->list();
 
-    expect($response)
-        ->not()
-        ->toBeNull();
-
-    expect($response->users)
+    expect($users)
         ->toBeArray();
+
+    expect($users[0])
+        ->toBeInstanceOf(UserRepresentation::class);
 
 })->group('request', 'user');
 
@@ -33,18 +33,17 @@ it('can get users by username', function () {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumUser->findByUsername(DAXIUM_USERNAME);
+    $users = $daxiumUser->findByUsername(DAXIUM_USERNAME);
 
-    expect($response)
-        ->not()
-        ->toBeNull();
-
-    expect($response->users)
+    expect($users)
         ->toBeArray();
 
-    $target = $response->users[0];
+    expect($users[0])
+        ->toBeInstanceOf(UserRepresentation::class);
 
-    expect($target->email)
-        ->toEqual(DAXIUM_USERNAME);
+    foreach ($users as $user) {
+        expect($user->email)
+            ->toEqual(DAXIUM_USERNAME);
+    }
 
 })->group('request', 'user');
