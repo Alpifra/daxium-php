@@ -26,4 +26,17 @@ class Submission extends BaseClient
         return $this->initRequest()->get("/{$appShort}/submissions", ['structure_id' => $id]);
     }
 
+    /**
+     * Find a submission by uuid
+     *
+     * @param  string $uuid
+     * @return \stdClass
+     */
+    public function find(string $uuid): \stdClass
+    {
+        $appShort = DAXIUM_APP_SHORT;
+
+        return $this->initRequest()->get("/{$appShort}/submissions/{$uuid}");
+    }
+
 }
