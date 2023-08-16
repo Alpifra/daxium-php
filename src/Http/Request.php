@@ -52,7 +52,7 @@ final class Request
 
         $this->init($path, $params)->setOptions();
         curl_setopt($this->ch, CURLOPT_POST, true);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($params));
 
         return json_decode($this->exec());
     }
@@ -78,11 +78,11 @@ final class Request
     /**
      * @param  string $path
      * @param  array<string, string|int|array<array-key, string>> $params
-     * @return \stdClass
+     * @return null
      * 
      * @throws RequestException
      */
-    public function delete(string $path, array $params = []): \stdClass
+    public function delete(string $path, array $params = [])
     {
         set_time_limit(self::TIME_LIMIT);
 
@@ -147,7 +147,7 @@ final class Request
         }
 
         $code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
-        if ($code !== 200) {
+        if ($code !== 200 && $code !== 201 && $code !== 204) {
             curl_close($this->ch);
             throw new ResponseException("Server returned {$code} status code. Response: {$result}.");
         }
