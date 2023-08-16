@@ -42,6 +42,22 @@ final class Request
     /**
      * @param  string $path
      * @param  array<string, string|int|array<array-key, string>> $params
+     * @return string
+     * 
+     * @throws RequestException
+     */
+    public function getFile(string $path, array $params = []): string
+    {
+        set_time_limit(self::TIME_LIMIT);
+
+        $this->init($path, $params)->setOptions('application/json', '*/*');
+
+        return $this->exec();
+    }
+
+    /**
+     * @param  string $path
+     * @param  array<string, string|int|array<array-key, string>> $params
      * @return \stdClass
      * 
      * @throws RequestException
@@ -114,15 +130,17 @@ final class Request
     }
 
     /**
-     * @param  \CurlHandle $ch
+     * @param  string $accept
+     * @param  string $contentType
      * @return self
      */
-    private function setOptions(string $contentType = 'application/json'): self
+    private function setOptions(string $contentType = 'application/json', string $accept = 'application/json;charset=utf-8'): self
     {
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/json;charset=utf-8',
+            "Accept: {$accept}",
             "Content-type: {$contentType}",
             "Authorization: Bearer {$this->token}",
             'Cache-Control: no-cache',
@@ -147,7 +165,7 @@ final class Request
         }
 
         $code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
-        if ($code !== 200 && $code !== 201 && $code !== 204) {
+        if ($code >= 400) {
             curl_close($this->ch);
             throw new ResponseException("Server returned {$code} status code. Response: {$result}.");
         }
