@@ -3,6 +3,7 @@
 use Alpifra\DaxiumPHP\Client\Task;
 use Alpifra\DaxiumPHP\Client\User;
 use Alpifra\DaxiumPHP\Representation\TaskRepresentation;
+use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 
 it('can get tasks collection', function () {
 
@@ -49,13 +50,21 @@ it('can create a new task for a user', function() {
         DAXIUM_APP_SHORT
     );
 
-    $task = $daxiumTask->create($user, $startAt, $endAt);
+    $task = $daxiumTask->create($user, $startAt, $endAt, [SUBMISSION_UUID]);
 
     expect($task)
         ->toBeInstanceOf(TaskRepresentation::class);
 
     expect($task->user_id)
         ->toEqual($user);
+
+    expect($task->submission)
+        ->not()
+        ->toBeNull()
+        ->toBeInstanceof(SubmissionRepresentation::class);
+
+    expect($task->submission->id)
+        ->toEqual(SUBMISSION_UUID);
 
 })->group('request', 'task');
 

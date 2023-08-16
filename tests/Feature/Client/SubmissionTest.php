@@ -2,6 +2,7 @@
 
 use Alpifra\DaxiumPHP\Client\Structure;
 use Alpifra\DaxiumPHP\Client\Submission;
+use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 
 it('can list submissions collection by structure', function () {
 
@@ -31,13 +32,17 @@ it('can list submissions collection by structure', function () {
     );
 
     $id = $response->structures[0]->id;
-    $response = $daxiumSubmission->listByStructure($id);
+    $submissions = $daxiumSubmission->listByStructure($id);
 
-    expect($response)
+    expect($submissions)
+        ->toBeArray()
         ->not()
         ->toBeNull();
 
-    foreach ($response->submissions as $submission) {
+    foreach ($submissions as $submission) {
+        expect($submission)
+            ->toBeInstanceOf(SubmissionRepresentation::class);
+
         expect($submission->structure_id)
             ->toEqual($id);
     }
@@ -72,24 +77,17 @@ it('can find a submission by uuid', function () {
     );
 
     $id = $response->structures[0]->id;
-    $response = $daxiumSubmission->listByStructure($id);
+    $submissions = $daxiumSubmission->listByStructure($id);
+    $uuid = $submissions[0]->id;
 
-    expect($response)
+    $submission = $daxiumSubmission->find($uuid);
+
+    expect($submission)
+        ->toBeInstanceOf(SubmissionRepresentation::class)
         ->not()
         ->toBeNull();
 
-    expect($response->submissions)
-        ->toBeArray();
-
-    $uuid = $response->submissions[0]->id;
-
-    $response = $daxiumSubmission->find($uuid);
-
-    expect($response)
-        ->not()
-        ->toBeNull();
-
-    expect($response->id)
+    expect($submission->id)
         ->toEqual($uuid);
 
 })->group('request', 'submission');

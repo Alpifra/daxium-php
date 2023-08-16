@@ -23,6 +23,8 @@ final class TaskRepresentation
 
     public string $fill_status;
 
+    public ?SubmissionRepresentation $submission = null;
+
     public function __construct(\stdClass $data)
     {
         $this->id = $data->id;
@@ -34,6 +36,8 @@ final class TaskRepresentation
         $this->due_date = new \DateTime("@{$data->due_date}");
         $this->time_status = $data->time_status;
         $this->fill_status = $data->fill_status;
+
+        $this->submission = isset($data->submission) ? new SubmissionRepresentation($data->submission) : null;
     }
 
 }

@@ -3,6 +3,7 @@
 namespace Alpifra\DaxiumPHP\Client;
 
 use Alpifra\DaxiumPHP\BaseClient;
+use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 
 
 /**
@@ -17,22 +18,31 @@ class Submission extends BaseClient
      * Find all submissions by form id
      *
      * @param  int $id
-     * @return \stdClass
+     * @return SubmissionRepresentation[]
      */
-    public function listByStructure(int $id): \stdClass
+    public function listByStructure(int $id): array
     {
-        return $this->initRequest()->get("/{$this->appShort}/submissions", ['structure_id' => $id]);
+        $data = $this->initRequest()->get("/{$this->appShort}/submissions", ['structure_id' => $id]);
+        $submissions = [];
+
+        foreach ($data->submissions as $submission) {
+            $submissions[] = new SubmissionRepresentation($submission);
+        }
+
+        return $submissions;
     }
 
     /**
      * Find a submission by uuid
      *
      * @param  string $uuid
-     * @return \stdClass
+     * @return SubmissionRepresentation
      */
-    public function find(string $uuid): \stdClass
+    public function find(string $uuid): SubmissionRepresentation
     {
-        return $this->initRequest()->get("/{$this->appShort}/submissions/{$uuid}");
+        $data = $this->initRequest()->get("/{$this->appShort}/submissions/{$uuid}");
+
+        return new SubmissionRepresentation($data);
     }
 
 }
