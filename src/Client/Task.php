@@ -10,7 +10,7 @@ use Alpifra\DaxiumPHP\BaseClient;
  * 
  * @see https://doc-dev.daxium-air.com/#taches
  */
-class Tasks extends BaseClient
+class Task extends BaseClient
 {
 
     /**

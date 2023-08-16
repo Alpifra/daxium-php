@@ -10,7 +10,7 @@ use Alpifra\DaxiumPHP\BaseClient;
  * 
  * @see https://doc-dev.daxium-air.com/#utilisateurs
  */
-class Users extends BaseClient
+class User extends BaseClient
 {
 
     /**
