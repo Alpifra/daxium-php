@@ -2,6 +2,7 @@
 
 use Alpifra\DaxiumPHP\Client\Task;
 use Alpifra\DaxiumPHP\Client\User;
+use Alpifra\DaxiumPHP\Representation\TaskRepresentation;
 
 it('can get tasks collection', function () {
 
@@ -13,13 +14,9 @@ it('can get tasks collection', function () {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumTask->list();
+    $tasks = $daxiumTask->list();
 
-    expect($response)
-        ->not()
-        ->toBeNull();
-
-    expect($response->tasks)
+    expect($tasks)
         ->toBeArray();
 
 })->group('request', 'task');
@@ -52,11 +49,13 @@ it('can create a new task for a user', function() {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumTask->create($user, $startAt, $endAt);
+    $task = $daxiumTask->create($user, $startAt, $endAt);
 
-    expect($response->id)
-        ->not()
-        ->toBeNull();
+    expect($task)
+        ->toBeInstanceOf(TaskRepresentation::class);
+
+    expect($task->user_id)
+        ->toEqual($user);
 
 })->group('request', 'task');
 
@@ -70,8 +69,8 @@ it('can delete an existing task', function() {
         DAXIUM_APP_SHORT
     );
 
-    $response = $daxiumTask->list();
-    $targetTask = $response->tasks[0];
+    $tasks = $daxiumTask->list();
+    $targetTask = $tasks[0];
 
     expect($targetTask->id)
         ->not()

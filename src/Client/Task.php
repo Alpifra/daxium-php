@@ -3,7 +3,7 @@
 namespace Alpifra\DaxiumPHP\Client;
 
 use Alpifra\DaxiumPHP\BaseClient;
-
+use Alpifra\DaxiumPHP\Representation\TaskRepresentation;
 
 /**
  * Task service manager from Daxium API
@@ -16,11 +16,18 @@ class Task extends BaseClient
     /**
      * List all tasks
      *
-     * @return \stdClass
+     * @return TaskRepresentation[]
      */
-    public function list(): \stdClass
+    public function list(): array
     {
-        return $this->initRequest()->get("/{$this->appShort}/tasks");
+        $data = $this->initRequest()->get("/{$this->appShort}/tasks"); 
+        $tasks = [];
+
+        foreach ($data->tasks as $task) {
+            $tasks[] = new TaskRepresentation($task);
+        }
+
+        return $tasks;
     }
 
     /**
@@ -30,9 +37,9 @@ class Task extends BaseClient
      * @param  \DateTime $startAt
      * @param  \DateTime $endAt
      * @param  ?array<array-key, string> $submissions
-     * @return \stdClass
+     * @return TaskRepresentation
      */
-    public function create(int $user, \DateTime $startAt, \DateTime $endAt, ?array $submissions = null): \stdClass
+    public function create(int $user, \DateTime $startAt, \DateTime $endAt, ?array $submissions = null): TaskRepresentation
     {
         $start = $startAt->getTimestamp();
         $end = $endAt->getTimestamp();
@@ -47,7 +54,9 @@ class Task extends BaseClient
 
         if ($submissions) $data['submissions'] = $submissions;
 
-        return $this->initRequest()->post("/{$this->appShort}/tasks", $data);
+        $data = $this->initRequest()->post("/{$this->appShort}/tasks", $data);
+
+        return new TaskRepresentation($data);
     }
 
     /**
