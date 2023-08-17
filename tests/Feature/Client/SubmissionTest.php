@@ -91,3 +91,27 @@ it('can find a submission by uuid', function () {
         ->toEqual($uuid);
 
 })->group('request', 'submission');
+
+it('can create a new submission', function () {
+
+    $daxiumSubmission = new Submission(
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
+    );
+
+    $submission = $daxiumSubmission->create(
+        getenv('STRUCTURE_FORMV4_ID'),
+        getenv('STRUCTURE_FORMV4_VERSION'),
+        ['RefAffaire' => [getenv('LIST_PROJECT_TEST_ID')]],
+        true
+    );
+
+    expect($submission)
+        ->toBeInstanceOf(SubmissionRepresentation::class)
+        ->not()
+        ->toBeNull();
+
+})->group('request', 'submission', 'demo');

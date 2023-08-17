@@ -45,4 +45,27 @@ class Submission extends BaseClient
         return new SubmissionRepresentation($data);
     }
 
+    /**
+     * Create a new submission
+     *
+     * @param  string $structureId
+     * @param  string $structureVersion
+     * @param  array<string, array<array-key, string>> $items with the system name field as key and the values as array. Exemple ['systemKey' => ['value']]
+     * @param  bool $partial
+     * @return SubmissionRepresentation
+     */
+    public function create(int $structureId, int $structureVersion, array $items, bool $partial = false): SubmissionRepresentation
+    {
+        $partial = $partial ? 'true' : 'false';
+
+        $data = $this->initRequest()->post("/{$this->appShort}/submissions", [
+            'partial'           => $partial,
+            'structure_id'      => $structureId,
+            'structure_version' => $structureVersion,
+            'items'             => $items
+        ]);
+
+        return new SubmissionRepresentation($data);
+    }
+
 }
