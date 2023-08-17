@@ -50,4 +50,29 @@ class Listing extends BaseClient
         return $lists;
     }
 
+    /**
+     * Add items to a list
+     *
+     * @param  int $parentId
+     * @param  ListingRepresentation[] $items
+     * @return ListingRepresentation[]
+     */
+    public function add(int $parentId, array $items): array
+    {
+        $lists = [];
+        $newLists = [];
+
+        foreach ($items as $item) {
+            $lists[] = json_decode( json_encode($item), true );
+        }
+
+        $data = $this->initRequest()->patch("/{$this->appShort}/lists/{$parentId}/{$parentId}", $lists);
+
+        foreach ($data->lists as $list) {
+            $newLists[] = new ListingRepresentation($list);
+        }
+
+        return $newLists;
+    }
+
 }

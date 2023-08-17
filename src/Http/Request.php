@@ -86,6 +86,22 @@ final class Request
     /**
      * @param  string $path
      * @param  array<string, string|int|array<array-key, string>> $params
+     * @return \stdClass
+     * 
+     * @throws RequestException
+     */
+    public function patch(string $path, array $params = []): \stdClass
+    {
+        $this->init($path, $params)->setOptions();
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($params));
+
+        return json_decode($this->exec());
+    }
+
+    /**
+     * @param  string $path
+     * @param  array<string, string|int|array<array-key, string>> $params
      * @return null
      * 
      * @throws RequestException
