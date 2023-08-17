@@ -7,11 +7,11 @@ use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 it('can list submissions collection by structure', function () {
 
     $daxiumStructure = new Structure(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $response = $daxiumStructure->list();
@@ -24,11 +24,11 @@ it('can list submissions collection by structure', function () {
         ->toBeArray();
 
     $daxiumSubmission = new Submission(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $id = $response->structures[0]->id;
@@ -52,11 +52,11 @@ it('can list submissions collection by structure', function () {
 it('can find a submission by uuid', function () {
 
     $daxiumStructure = new Structure(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $response = $daxiumStructure->list();
@@ -69,11 +69,11 @@ it('can find a submission by uuid', function () {
         ->toBeArray();
 
     $daxiumSubmission = new Submission(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $id = $response->structures[0]->id;

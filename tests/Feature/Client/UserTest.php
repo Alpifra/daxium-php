@@ -6,11 +6,11 @@ use Alpifra\DaxiumPHP\Representation\UserRepresentation;
 it('can get users collection', function () {
 
     $daxiumUser = new User(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $users = $daxiumUser->list();
@@ -26,14 +26,14 @@ it('can get users collection', function () {
 it('can get users by username', function () {
 
     $daxiumUser = new User(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $users = $daxiumUser->findByUsername(DAXIUM_USERNAME);
+    $users = $daxiumUser->findByUsername(getenv('DAXIUM_USERNAME'));
 
     expect($users)
         ->toBeArray();
@@ -43,7 +43,7 @@ it('can get users by username', function () {
 
     foreach ($users as $user) {
         expect($user->email)
-            ->toEqual(DAXIUM_USERNAME);
+            ->toEqual(getenv('DAXIUM_USERNAME'));
     }
 
 })->group('request', 'user');

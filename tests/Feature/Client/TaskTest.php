@@ -8,11 +8,11 @@ use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 it('can get tasks collection', function () {
 
     $daxiumTask = new Task(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $tasks = $daxiumTask->list();
@@ -25,14 +25,14 @@ it('can get tasks collection', function () {
 it('can create a new task for a user', function() {
 
     $daxiumUser = new User(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $users = $daxiumUser->findByUsername(DAXIUM_USERNAME);
+    $users = $daxiumUser->findByUsername(getenv('DAXIUM_USERNAME'));
     $user = $users[0]->id;
 
     expect($user)
@@ -43,14 +43,15 @@ it('can create a new task for a user', function() {
     $endAt->modify('1 hour');
 
     $daxiumTask = new Task(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $task = $daxiumTask->create($user, $startAt, $endAt, [SUBMISSION_UUID]);
+    $submissionUuid = getenv('SUBMISSION_UUID');
+    $task = $daxiumTask->create($user, $startAt, $endAt, [$submissionUuid]);
 
     expect($task)
         ->toBeInstanceOf(TaskRepresentation::class);
@@ -64,18 +65,18 @@ it('can create a new task for a user', function() {
         ->toBeInstanceof(SubmissionRepresentation::class);
 
     expect($task->submission->id)
-        ->toEqual(SUBMISSION_UUID);
+        ->toEqual($submissionUuid);
 
 })->group('request', 'task');
 
 it('can delete an existing task', function() {
 
     $daxiumTask = new Task(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $tasks = $daxiumTask->list();
@@ -86,11 +87,11 @@ it('can delete an existing task', function() {
         ->toBeNull();
 
     $daxiumTask = new Task(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $response = $daxiumTask->remove($targetTask->id);

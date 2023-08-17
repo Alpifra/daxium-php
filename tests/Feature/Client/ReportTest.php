@@ -5,14 +5,14 @@ use Alpifra\DaxiumPHP\Client\Report;
 it('can find report by submission', function () {
 
     $daxiumReport = new Report(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $uuid = SUBMISSION_UUID;
+    $uuid = getenv('SUBMISSION_UUID');
     $response = $daxiumReport->findBySubmission($uuid);
 
     expect($response)
@@ -27,14 +27,14 @@ it('can find report by submission', function () {
 it('can download report', function () {
 
     $daxiumReport = new Report(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $uuid = SUBMISSION_UUID;
+    $uuid = getenv('SUBMISSION_UUID');
     $response = $daxiumReport->findBySubmission($uuid);
 
     expect($response)

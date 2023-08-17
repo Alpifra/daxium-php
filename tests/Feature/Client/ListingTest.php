@@ -6,11 +6,11 @@ use Alpifra\DaxiumPHP\Representation\ListingRepresentation;
 it('can list lists collection', function () {
 
     $daxiumListing = new Listing(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $lists = $daxiumListing->list();
@@ -28,14 +28,15 @@ it('can list lists collection', function () {
 it('can get list by id', function () {
 
     $daxiumListing = new Listing(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
-    $lists = $daxiumListing->find(LIST_CLIENT_ID);
+    $testList = getenv('LIST_TEST_ID');
+    $lists = $daxiumListing->find($testList);
 
     expect($lists)
         ->toBeArray();
@@ -50,11 +51,11 @@ it('can get list by id', function () {
 it('can add item to a list', function () {
 
     $daxiumListing = new Listing(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $stdClass1 = new \stdClass;
@@ -71,7 +72,8 @@ it('can add item to a list', function () {
     $item1 = new ListingRepresentation($stdClass1);
     $item2 = new ListingRepresentation($stdClass2);
 
-    $lists = $daxiumListing->add(PARENT_LIST_CLIENT_ID, [$item1, $item2]);
+    $testList = getenv('PARENT_LIST_TEST_ID');
+    $lists = $daxiumListing->add($testList, [$item1, $item2]);
 
     expect($lists)
         ->toBeArray();
@@ -87,4 +89,4 @@ it('can add item to a list', function () {
             ->toContain("Testing external id");
     }
 
-})->group('request', 'list', 'demo');
+})->group('request', 'list');

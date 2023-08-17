@@ -5,11 +5,11 @@ use Alpifra\DaxiumPHP\Client\Structure;
 it('can list structures collection', function () {
 
     $daxiumStructure = new Structure(
-        DAXIUM_USER_ID, 
-        DAXIUM_USER_SECRET, 
-        DAXIUM_USERNAME, 
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $response = $daxiumStructure->list();
@@ -26,11 +26,11 @@ it('can list structures collection', function () {
 it('can get structure by id', function () {
 
     $daxiumStructure = new Structure(
-        DAXIUM_USER_ID,
-        DAXIUM_USER_SECRET,
-        DAXIUM_USERNAME,
-        DAXIUM_PASSWORD,
-        DAXIUM_APP_SHORT
+        getenv('DAXIUM_USER_ID'),
+        getenv('DAXIUM_USER_SECRET'),
+        getenv('DAXIUM_USERNAME'),
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
     );
 
     $response = $daxiumStructure->list();
