@@ -50,7 +50,7 @@ class Submission extends BaseClient
      *
      * @param  string $structureId
      * @param  string $structureVersion
-     * @param  array<string, array<array-key, string>> $items with the system name field as key and the values as array. Exemple ['systemKey' => ['value']]
+     * @param  array<string, array<array-key, mixed>> $items with the system name field as key and the values as array. Exemple ['systemKey' => ['value']]
      * @param  bool $partial
      * @return SubmissionRepresentation
      */
