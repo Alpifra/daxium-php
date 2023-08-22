@@ -21,6 +21,9 @@ final class SubmissionRepresentation
 
     public int $number_in_structure;
 
+    /** @var ?array<mixed> */
+    public ?array $items = null;
+
     public function __construct(\stdClass $data)
     {
         $this->id = $data->id;
@@ -31,6 +34,7 @@ final class SubmissionRepresentation
         $this->updated_at = new \DateTime("@{$data->updated_at}");
         $this->submission_number = $data->submission_number;
         $this->number_in_structure = $data->number_in_structure;
+        $this->items = isset($data->items) ? json_decode(json_encode($data->items), true) : null;
     }
 
 }
