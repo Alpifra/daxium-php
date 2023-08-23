@@ -92,6 +92,27 @@ it('can find a submission by uuid', function () {
 
 })->group('request', 'submission');
 
+it('can find a submission file by uuid', function () {
+
+    $daxiumSubmission = new Submission(
+        getenv('DAXIUM_USER_ID'), 
+        getenv('DAXIUM_USER_SECRET'), 
+        getenv('DAXIUM_USERNAME'), 
+        getenv('DAXIUM_PASSWORD'),
+        getenv('DAXIUM_APP_SHORT')
+    );
+
+    $submissionUuid = getenv('SUBMISSION_UUID');
+    $fileUuid = getenv('SUBMISSION_FILE_UUID');
+
+    $data = $daxiumSubmission->findFile($submissionUuid, $fileUuid);
+
+    expect($data)
+        ->not()
+        ->toBeNull();
+
+})->group('request', 'submission');
+
 it('can create a new submission', function () {
 
     $daxiumSubmission = new Submission(
@@ -114,4 +135,4 @@ it('can create a new submission', function () {
         ->not()
         ->toBeNull();
 
-})->group('request', 'submission', 'demo');
+})->group('request', 'submission');

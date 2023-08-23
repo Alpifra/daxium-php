@@ -5,7 +5,6 @@ namespace Alpifra\DaxiumPHP\Client;
 use Alpifra\DaxiumPHP\BaseClient;
 use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 
-
 /**
  * Submission service manager from Daxium API
  * 
@@ -43,6 +42,20 @@ class Submission extends BaseClient
         $data = $this->initRequest()->get("/{$this->appShort}/submissions/{$uuid}");
 
         return new SubmissionRepresentation($data);
+    }
+
+    /**
+     * Find a submission file by uuid
+     *
+     * @param  string $submissionUuid
+     * @param  string $fileUuid
+     * @return mixed
+     */
+    public function findFile(string $submissionUuid, string $fileUuid): mixed
+    {
+        $data = $this->initRequest()->getFile("/{$this->appShort}/submissions/{$submissionUuid}/file/{$fileUuid}");
+
+        return $data;
     }
 
     /**
