@@ -1,6 +1,7 @@
 <?php
 
 use Alpifra\DaxiumPHP\Client\Report;
+use Alpifra\DaxiumPHP\Representation\ReportRepresentation;
 
 it('can find report by submission', function () {
 
@@ -13,14 +14,15 @@ it('can find report by submission', function () {
     );
 
     $uuid = getenv('SUBMISSION_UUID');
-    $response = $daxiumReport->findBySubmission($uuid);
+    $reports = $daxiumReport->findBySubmission($uuid);
 
-    expect($response)
-        ->not()
-        ->toBeNull();
-
-    expect($response->reports)
+    expect($reports)
         ->toBeArray();
+
+    foreach ($reports as $report) {
+        expect($report)
+            ->toBeInstanceOf(ReportRepresentation::class);
+    }
 
 })->group('request', 'report');
 
@@ -35,18 +37,19 @@ it('can download report', function () {
     );
 
     $uuid = getenv('SUBMISSION_UUID');
-    $response = $daxiumReport->findBySubmission($uuid);
+    $reports = $daxiumReport->findBySubmission($uuid);
 
-    expect($response)
+    expect($reports)
+        ->toBeArray();
+
+    $targetReport = $reports[0];
+    $fileId = $targetReport->id;
+    $fileUuid = $targetReport->file_uuid;
+
+    expect($targetReport->file_uuid)
         ->not()
         ->toBeNull();
 
-    expect($response->reports)
-        ->toBeArray();
-
-    $targetReport = $response->reports[0];
-    $fileId = $targetReport->id;
-    $fileUuid = $targetReport->original_document->file_uuid;
     $response = $daxiumReport->download($fileId, $fileUuid);
 
     expect($response)

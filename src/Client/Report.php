@@ -3,6 +3,7 @@
 namespace Alpifra\DaxiumPHP\Client;
 
 use Alpifra\DaxiumPHP\BaseClient;
+use Alpifra\DaxiumPHP\Representation\ReportRepresentation;
 
 
 /**
@@ -17,11 +18,18 @@ class Report extends BaseClient
      * Find a report by a submission
      *
      * @param  string $uuid
-     * @return \stdClass
+     * @return ReportRepresentation[]
      */
-    public function findBySubmission(string $uuid): \stdClass
+    public function findBySubmission(string $uuid): array
     {
-        return $this->initRequest()->get("/{$this->appShort}/reports", ['submission' => $uuid]);
+        $data = $this->initRequest()->get("/{$this->appShort}/reports", ['submission' => $uuid]);
+        $reports = [];
+
+        foreach ($data->reports as $report) {
+            $reports[] = new ReportRepresentation($report);
+        }
+
+        return $reports;
     }
 
     /**
