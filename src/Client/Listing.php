@@ -10,7 +10,7 @@ use Alpifra\DaxiumPHP\Representation\ListingRepresentation;
  * List service manager from Daxium API
  * Rename as Listing to avoid restricted PHP word
  * 
- * @see https://doc-dev.daxium-air.com/#taches
+ * @see https://doc-dev.daxium-air.com/#listes
  */
 class Listing extends BaseClient
 {

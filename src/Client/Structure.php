@@ -8,7 +8,7 @@ use Alpifra\DaxiumPHP\BaseClient;
 /**
  * Structure service manager from Daxium API
  * 
- * @see https://doc-dev.daxium-air.com/#taches
+ * @see https://doc-dev.daxium-air.com/#formulaires
  */
 class Structure extends BaseClient
 {

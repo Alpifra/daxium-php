@@ -8,7 +8,7 @@ use Alpifra\DaxiumPHP\Representation\SubmissionRepresentation;
 /**
  * Submission service manager from Daxium API
  * 
- * @see https://doc-dev.daxium-air.com/#recuperer-les-fiches-d-39-un-formulaire
+ * @see https://doc-dev.daxium-air.com/#fiches
  */
 class Submission extends BaseClient
 {
